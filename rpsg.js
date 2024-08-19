@@ -46,14 +46,31 @@ function playRound(computerSelection, humanSelection)
 
 function playGame()
 {
-	for(let i = 0; i < 5; i++)
-	{
-		let userSelection = getHumanChoice();
-		let computerChoiceSelection = getComputerChoice();
-		playRound(computerChoiceSelection, userSelection);
-	}
-	console.log(`Your Score: ${humanScore}`);
-	console.log(`Computer Score: ${computerScore}`);
+	const unoButton = document.createElement('button');
+	const duoButton = document.createElement('button');
+	const tresButton = document.createElement('button');
+
+	const userSelection  = unoButton.addEventListener('click' , function () {
+		getHumanChoice();
+	});
+
+	const computerChoiceSelection = duoButton.addEventListener('click', function () {
+		getComputerChoice();
+	});
+
+	tresButton.addEventListener('click', function () {
+		playRound(computerChoiceSelection , userSelection);
+	});
+
+	const resultsDiv = document.createElement('div');
+	const humanScoreHeader = document.createElement('h2');
+	const computerScoreHeader = document.createElement('h2');
+
+	humanScoreHeader.textContent = humanScore;
+	computerScoreHeader.textContent = computerScore;
+
+	resultsDiv.appendChild(humanScoreHeader);
+	resultsDiv.appendChild(computerScoreHeader);
 }
 
 playGame();
