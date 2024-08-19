@@ -24,9 +24,16 @@ function getHumanChoice(userChoice)
 
 function playRound(computerSelection, humanSelection)
 {
+	const scoreLog = document.createElement('div');
+
+	const tie = document.createElement('p');
+	const computerLog = document.createElement('p');
+	const humanLog = document.createElement('p');
+
 	if(computerSelection === humanSelection)
 	{
-		console.log(`It is A tie. Both chose ${computerSelection}`);
+		tie.textContent = `It is A tie. Both chose ${computerSelection}`;
+		scoreLog.appendChild(tie);
 	}
 
 	else if((computerSelection === "scissor" && humanSelection === "rock") || 
@@ -34,43 +41,116 @@ function playRound(computerSelection, humanSelection)
 	(computerSelection === "rock" && humanSelection === "paper")
 	)
 	{
-		console.log(`h:${humanSelection} beats c:${computerSelection}. You Win`);
+		humanLog.textContent = `h:${humanSelection} beats c:${computerSelection}. You Win`;
 		humanScore += 1;
+		scoreLog.appendChild(humanLog);
 	}
 	else
 	{
-		console.log(`c:${computerSelection} beats h:${humanSelection}. You Lose`);
+		computerLog.textContent = `c:${computerSelection} beats h:${humanSelection}. You Lose`;
 		computerScore += 1;
+		scoreLog.appendChild(computerLog);
 	}
+	document.querySelector('#scoreStatement').appendChild(scoreLog);
+	updateScores();
+	declareWinner();
+}
+
+function updateScores()
+{
+	document.getElementById('humanScore').textContent = `Your Score: ${humanScore}`;
+	document.getElementById('computerScore').textContent = `Computer Score: ${computerScore}`;
+}
+
+function declareWinner()
+{
+	const scoreHeader = document.createElement('h1');
+	scoreHeader.id = 'scoreHeaderId';
+	if(humanScore === 5)
+	{
+		scoreHeader.textContent = `You win with ${humanScore} points`;
+		scoreHeader.style.color = 'red';
+		document.querySelector("#winner").appendChild(scoreHeader);
+		reset();
+	}
+	else if (computerScore === 5)
+	{
+		scoreHeader.textContent = `Computer Wins with ${computerScore} points`;
+		scoreHeader.style.color = 'red';
+		document.querySelector("#winner").appendChild(scoreHeader);
+		resetButton();
+	}
+}
+
+function resetButton()
+{
+	const buttonReset = document.createElement('button');
+	buttonReset.id = 'buttonResetId';
+
+	buttonReset.textContent = "RESET";
+
+	document.querySelector("#winner").appendChild(buttonReset);
+
+	buttonReset.addEventListener('click', () => {
+		reset();
+	});
+}
+
+function reset()
+{
+	humanScore = 0;
+	computerScore = 0;
+
+	const scoreStatementDiv = document.getElementById('scoreStatement');
+	scoreStatementDiv.querySelector("#scoreHeaderId").textContent = '';
 }
 
 function playGame()
 {
+	const SDiv = document.createElement('div');
+
+	const buttonDiv = document.createElement('div');
 	const unoButton = document.createElement('button');
 	const duoButton = document.createElement('button');
 	const tresButton = document.createElement('button');
 
-	const userSelection  = unoButton.addEventListener('click' , function () {
-		getHumanChoice();
-	});
+	unoButton.innerText = 'rock';
+	duoButton.innerText = 'paper';
+	tresButton.innerText = 'scissor';
 
-	const computerChoiceSelection = duoButton.addEventListener('click', function () {
-		getComputerChoice();
-	});
+	buttonDiv.appendChild(unoButton);
+	buttonDiv.appendChild(duoButton);
+	buttonDiv.appendChild(tresButton);
 
-	tresButton.addEventListener('click', function () {
-		playRound(computerChoiceSelection , userSelection);
-	});
+	SDiv.appendChild(buttonDiv);
 
-	const resultsDiv = document.createElement('div');
+	const resultDiv = document.createElement('div');
 	const humanScoreHeader = document.createElement('h2');
 	const computerScoreHeader = document.createElement('h2');
 
-	humanScoreHeader.textContent = humanScore;
-	computerScoreHeader.textContent = computerScore;
+	humanScoreHeader.id = 'humanScore';
+	resultDiv.appendChild(humanScoreHeader);
 
-	resultsDiv.appendChild(humanScoreHeader);
-	resultsDiv.appendChild(computerScoreHeader);
+	computerScoreHeader.id = 'computerScore';
+	resultDiv.appendChild(computerScoreHeader);
+
+	SDiv.appendChild(resultDiv);
+
+	document.querySelector('#playGameDiv').appendChild(SDiv);
+
+	updateScores();
+
+	unoButton.addEventListener('click', () => {
+		playRound(getComputerChoice(), getHumanChoice('rock'));
+	});
+
+	duoButton.addEventListener('click', () => {
+		playRound(getComputerChoice(), getHumanChoice('paper'));
+	});
+
+	tresButton.addEventListener('click', () => {
+		playRound(getComputerChoice(), getHumanChoice('scissor'));
+	});
 }
 
 playGame();
