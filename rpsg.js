@@ -22,10 +22,10 @@ function getHumanChoice(userChoice)
 	}
 }
 
+const scoreLog = document.createElement('div');
+
 function playRound(computerSelection, humanSelection)
 {
-	const scoreLog = document.createElement('div');
-
 	const tie = document.createElement('p');
 	const computerLog = document.createElement('p');
 	const humanLog = document.createElement('p');
@@ -82,9 +82,10 @@ function declareWinner()
 	}
 }
 
+const buttonReset = document.createElement('button');
+
 function resetButton()
 {
-	const buttonReset = document.createElement('button');
 	buttonReset.id = 'buttonResetId';
 
 	buttonReset.textContent = "RESET";
@@ -102,7 +103,7 @@ function reset()
 	computerScore = 0;
 
 	const scoreStatementDiv = document.getElementById('scoreStatement');
-	scoreStatementDiv.querySelector("#scoreHeaderId").textContent = '';
+	scoreStatementDiv.remove(scoreLog);
 }
 
 function playGame()
