@@ -9,12 +9,12 @@ function getComputerChoice()
 	return choice[i];
 }
 
-function getHumanChoice()
+function getHumanChoice(userChoice)
 {
-	let userChoice = window.prompt("Type A Choice").toLowerCase();
+	userChoice = userChoice.toLowerCase();
 	if(choice.includes(userChoice))
 	{
-		return userChoice
+		return userChoice;
 	}
 	else
 	{
