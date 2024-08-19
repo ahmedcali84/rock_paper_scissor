@@ -22,10 +22,9 @@ function getHumanChoice(userChoice)
 	}
 }
 
-const scoreLog = document.createElement('div');
-
 function playRound(computerSelection, humanSelection)
 {
+	const scoreLog = document.createElement('div');
 	const tie = document.createElement('p');
 	const computerLog = document.createElement('p');
 	const humanLog = document.createElement('p');
@@ -66,14 +65,16 @@ function declareWinner()
 {
 	const scoreHeader = document.createElement('h1');
 	scoreHeader.id = 'scoreHeaderId';
+
 	if(humanScore === 5)
 	{
 		scoreHeader.textContent = `You win with ${humanScore} points`;
 		scoreHeader.style.color = 'red';
 		document.querySelector("#winner").appendChild(scoreHeader);
-		reset();
+		resetButton();
 	}
-	else if (computerScore === 5)
+
+	if (computerScore === 5)
 	{
 		scoreHeader.textContent = `Computer Wins with ${computerScore} points`;
 		scoreHeader.style.color = 'red';
@@ -86,15 +87,18 @@ const buttonReset = document.createElement('button');
 
 function resetButton()
 {
-	buttonReset.id = 'buttonResetId';
+	if (!document.getElementById("buttonResetId"))
+	{
+		buttonReset.id = 'buttonResetId';
 
-	buttonReset.textContent = "RESET";
-
-	document.querySelector("#winner").appendChild(buttonReset);
-
-	buttonReset.addEventListener('click', () => {
-		reset();
-	});
+		buttonReset.textContent = "RESET";
+	
+		document.querySelector("#winner").appendChild(buttonReset);
+	
+		buttonReset.addEventListener('click', () => {
+			reset();
+		});
+	}
 }
 
 function reset()
@@ -103,7 +107,12 @@ function reset()
 	computerScore = 0;
 
 	const scoreStatementDiv = document.getElementById('scoreStatement');
-	scoreStatementDiv.remove(scoreLog);
+	scoreStatementDiv.innerHTML = '';
+
+	const scoreStatementID = document.getElementById('winner');
+	scoreStatementID.innerHTML = '';
+
+	updateScores();
 }
 
 function playGame()
